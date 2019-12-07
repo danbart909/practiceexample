@@ -1,21 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './List.css';
-import Card from './Card';
+import React, { Component } from 'react';
+import List from './List'
+import './App.css';
 
-export default function List(props) {
-	return (
-		<section className="List">
-			<header className='List-header'>
+class App extends Component {
+  static defaultProps = {
+    store: {
+      lists: [],
+      allCards: {},
+    }
+  };
 
-			<div class="List-cards">
-			</div>
-			<button type="button" class="List-add-button">
-      	+ Add Random Card
-      </button>
-			</header>
-		</section>
-	)
+  render() {
+    const { store } = this.props
+    return (
+      <main className='App'>
+        <header className='App-header'>
+          <h1>Trelloyes!</h1>
+        </header>
+        <div className='App-list'>
+          {store.lists.map(list => (
+            <List
+              key={list.id}
+              header={list.header}
+              cards={list.cardIds.map(id => store.allCards[id])}
+            />
+          ))}
+        </div>
+      </main>
+    );
+  }
 }
 
-export default List;
+export default App;
